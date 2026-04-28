@@ -3,8 +3,12 @@ import { getTrending, getPopular, getTopRated, getUpcoming, getMoviesByGenre, ge
 import HeroBanner from "@/components/HeroBanner";
 import MovieRow from "@/components/MovieRow";
 import { Skeleton } from "@/components/ui/skeleton";
+import { filterAdult } from "@/lib/adultFilter";
+import { useShowAdult } from "@/hooks/use-show-adult";
 
 const Index = () => {
+  const showAdult = useShowAdult();
+  const f = <T extends any>(arr: T[] | undefined) => filterAdult((arr || []) as any, showAdult);
   const { data: trending } = useQuery({ queryKey: ["trending"], queryFn: () => getTrending() });
   const { data: popular } = useQuery({ queryKey: ["popular"], queryFn: () => getPopular() });
   const { data: topRated } = useQuery({ queryKey: ["topRated"], queryFn: () => getTopRated() });
