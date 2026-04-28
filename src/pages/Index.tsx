@@ -20,7 +20,8 @@ const Index = () => {
   const { data: drama } = useQuery({ queryKey: ["genre", 18], queryFn: () => getMoviesByGenre(18) });
   const { data: romance } = useQuery({ queryKey: ["genre", 10749], queryFn: () => getMoviesByGenre(10749) });
 
-  const heroMovie = trending?.results?.[0];
+  const heroCandidates = filterAdult((trending?.results || []) as any, showAdult);
+  const heroMovie = heroCandidates[0];
 
   if (!heroMovie) {
     return (
