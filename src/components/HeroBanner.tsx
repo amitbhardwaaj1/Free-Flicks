@@ -9,6 +9,7 @@ interface HeroBannerProps {
 
 const HeroBanner = ({ movie }: HeroBannerProps) => {
   const backdrop = getBackdropUrl(movie.backdrop_path);
+  const detailPath = movie.media_type === "tv" ? `/tv/${movie.id}` : `/movie/${movie.id}`;
 
   return (
     <section className="relative h-[70vh] md:h-[85vh] w-full overflow-hidden">
