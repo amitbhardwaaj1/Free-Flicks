@@ -9,6 +9,7 @@ import { useRef } from "react";
 
 const MovieDetail = ({ mediaType = "movie" }: { mediaType?: "movie" | "tv" }) => {
   const { id } = useParams<{ id: string }>();
+  const playerRef = useRef<HTMLDivElement>(null);
 
   const { data: movie, isLoading } = useQuery({
     queryKey: [mediaType, id],
