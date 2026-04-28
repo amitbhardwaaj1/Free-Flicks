@@ -95,12 +95,39 @@ const MovieDetail = ({ mediaType = "movie" }: { mediaType?: "movie" | "tv" }) =>
               ))}
             </div>
             <p className="text-muted-foreground leading-relaxed max-w-2xl">{movie.overview}</p>
+            <div className="pt-2">
+              <Button
+                size="lg"
+                className="gap-2 font-semibold"
+                onClick={() => playerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+              >
+                <Play className="h-5 w-5 fill-current" />
+                Watch Now
+              </Button>
+            </div>
           </div>
         </div>
 
-        {/* YouTube Player */}
+        {/* Streaming Player (streamimdb.ru) */}
+        <section ref={playerRef} className="mt-12 scroll-mt-20">
+          <h2 className="text-2xl font-semibold mb-4">▶ Watch Now</h2>
+          <div className="aspect-video w-full max-w-4xl rounded-lg overflow-hidden bg-secondary">
+            <iframe
+              src={`https://streamimdb.ru/embed/${mediaType === "tv" ? "tv" : "movie"}/${movie.id}`}
+              title={`Watch ${movie.title}`}
+              className="w-full h-full"
+              allowFullScreen
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            />
+          </div>
+          <p className="text-xs text-muted-foreground mt-2">
+            If the player does not load, the title may not be available on the streaming source.
+          </p>
+        </section>
+
+        {/* YouTube Trailer */}
         <section className="mt-12">
-          <h2 className="text-2xl font-semibold mb-4">▶ Watch on YouTube</h2>
+          <h2 className="text-2xl font-semibold mb-4">🎬 Trailer</h2>
           {youtubeVideo ? (
             <div className="aspect-video w-full max-w-4xl rounded-lg overflow-hidden bg-secondary">
               <iframe
@@ -112,23 +139,15 @@ const MovieDetail = ({ mediaType = "movie" }: { mediaType?: "movie" | "tv" }) =>
               />
             </div>
           ) : (
-            <div className="aspect-video w-full max-w-4xl rounded-lg overflow-hidden bg-secondary">
-              <iframe
-                src={`https://www.youtube.com/embed?listType=search&list=${searchQuery}`}
-                title={`Search: ${movie.title}`}
-                className="w-full h-full"
-                allowFullScreen
-              />
-            </div>
+            <a
+              href={`https://www.youtube.com/results?search_query=${searchQuery}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block text-sm text-primary hover:underline"
+            >
+              Search trailer on YouTube →
+            </a>
           )}
-          <a
-            href={`https://www.youtube.com/results?search_query=${searchQuery}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block mt-3 text-sm text-primary hover:underline"
-          >
-            Search on YouTube →
-          </a>
         </section>
 
         {/* Cast */}
