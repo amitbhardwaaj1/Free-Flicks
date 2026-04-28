@@ -3,8 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { Search, Menu, X, Film } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { FEATURED_GENRES } from "@/lib/tmdb";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import { setShowAdult } from "@/lib/adultFilter";
+import { useShowAdult } from "@/hooks/use-show-adult";
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
