@@ -9,12 +9,15 @@ import { useShowAdult } from "@/hooks/use-show-adult";
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
+  const showAdult = useShowAdult();
 
   const { data, isLoading } = useQuery({
     queryKey: ["search", query],
     queryFn: () => searchMovies(query),
     enabled: !!query,
   });
+
+  const results = filterAdult((data?.results || []) as any, showAdult);
 
   return (
     <main className="min-h-screen pt-20 container mx-auto px-4">
