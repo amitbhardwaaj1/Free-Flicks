@@ -9,6 +9,7 @@ interface HeroBannerProps {
 
 const HeroBanner = ({ movie }: HeroBannerProps) => {
   const backdrop = getBackdropUrl(movie.backdrop_path);
+  const detailPath = movie.media_type === "tv" ? `/tv/${movie.id}` : `/movie/${movie.id}`;
 
   return (
     <section className="relative h-[70vh] md:h-[85vh] w-full overflow-hidden">
@@ -31,13 +32,13 @@ const HeroBanner = ({ movie }: HeroBannerProps) => {
         </p>
         <div className="flex gap-3">
           <Button asChild size="lg" className="gap-2 font-semibold">
-            <Link to={`/movie/${movie.id}`}>
+            <Link to={`${detailPath}`}>
               <Play className="h-5 w-5 fill-current" />
               Watch Now
             </Link>
           </Button>
           <Button asChild variant="secondary" size="lg" className="gap-2">
-            <Link to={`/movie/${movie.id}`}>
+            <Link to={`${detailPath}`}>
               <Info className="h-5 w-5" />
               More Info
             </Link>

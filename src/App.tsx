@@ -21,7 +21,8 @@ const App = () => (
         <Navbar />
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/movie/:id" element={<MovieDetail />} />
+          <Route path="/movie/:id" element={<MovieDetail mediaType="movie" />} />
+          <Route path="/tv/:id" element={<MovieDetail mediaType="tv" />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/genre/:id/:name" element={<GenrePage />} />
           <Route path="*" element={<NotFound />} />

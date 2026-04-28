@@ -9,7 +9,7 @@ interface MovieCardProps {
 const MovieCard = ({ movie }: MovieCardProps) => {
   return (
     <Link
-      to={`/movie/${movie.id}`}
+      to={movie.media_type === "tv" ? `/tv/${movie.id}` : `/movie/${movie.id}`}
       className="group relative flex-shrink-0 w-[140px] md:w-[180px] transition-transform duration-300 hover:scale-105 hover:z-10"
     >
       <div className="relative aspect-[2/3] rounded-md overflow-hidden bg-secondary">

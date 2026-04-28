@@ -1,16 +1,16 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getMovieDetails, getImageUrl, getBackdropUrl } from "@/lib/tmdb";
+import { getMovieDetails, getTVDetails, getImageUrl, getBackdropUrl } from "@/lib/tmdb";
 import { Star, Clock, Calendar } from "lucide-react";
 import MovieRow from "@/components/MovieRow";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const MovieDetail = () => {
+const MovieDetail = ({ mediaType = "movie" }: { mediaType?: "movie" | "tv" }) => {
   const { id } = useParams<{ id: string }>();
 
   const { data: movie, isLoading } = useQuery({
-    queryKey: ["movie", id],
-    queryFn: () => getMovieDetails(Number(id)),
+    queryKey: [mediaType, id],
+    queryFn: () => (mediaType === "tv" ? getTVDetails(Number(id)) : getMovieDetails(Number(id))),
     enabled: !!id,
   });
 
