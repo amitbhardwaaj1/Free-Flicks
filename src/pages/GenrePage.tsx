@@ -11,12 +11,15 @@ import { useShowAdult } from "@/hooks/use-show-adult";
 const GenrePage = () => {
   const { id, name } = useParams<{ id: string; name: string }>();
   const [page, setPage] = useState(1);
+  const showAdult = useShowAdult();
 
   const { data, isLoading } = useQuery({
     queryKey: ["genre", id, page],
     queryFn: () => getMoviesByGenre(Number(id), page),
     enabled: !!id,
   });
+
+  const results = filterAdult((data?.results || []) as any, showAdult);
 
   const genreName = name ? name.charAt(0).toUpperCase() + name.slice(1) : "Genre";
 
