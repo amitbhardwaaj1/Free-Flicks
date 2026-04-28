@@ -1,9 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getMovieDetails, getTVDetails, getImageUrl, getBackdropUrl } from "@/lib/tmdb";
-import { Star, Clock, Calendar } from "lucide-react";
+import { Star, Clock, Calendar, Play } from "lucide-react";
 import MovieRow from "@/components/MovieRow";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { useRef } from "react";
 
 const MovieDetail = ({ mediaType = "movie" }: { mediaType?: "movie" | "tv" }) => {
   const { id } = useParams<{ id: string }>();
