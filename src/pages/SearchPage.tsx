@@ -35,16 +35,16 @@ const SearchPage = () => {
 
       {data?.results && (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {data.results.map((movie: any) => (
-            <div key={movie.id} className="w-full">
+          {results.map((movie: any) => (
+            <div key={`${movie.media_type}-${movie.id}`} className="w-full">
               <MovieCard movie={movie} />
             </div>
           ))}
         </div>
       )}
 
-      {data?.results?.length === 0 && (
-        <p className="text-muted-foreground text-center py-20">No movies found for "{query}"</p>
+      {data?.results && results.length === 0 && (
+        <p className="text-muted-foreground text-center py-20">No results found for "{query}"</p>
       )}
     </main>
   );
