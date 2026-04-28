@@ -3,8 +3,12 @@ import { getTrending, getPopular, getTopRated, getUpcoming, getMoviesByGenre, ge
 import HeroBanner from "@/components/HeroBanner";
 import MovieRow from "@/components/MovieRow";
 import { Skeleton } from "@/components/ui/skeleton";
+import { filterAdult } from "@/lib/adultFilter";
+import { useShowAdult } from "@/hooks/use-show-adult";
 
 const Index = () => {
+  const showAdult = useShowAdult();
+  const f = <T extends any>(arr: T[] | undefined) => filterAdult((arr || []) as any, showAdult);
   const { data: trending } = useQuery({ queryKey: ["trending"], queryFn: () => getTrending() });
   const { data: popular } = useQuery({ queryKey: ["popular"], queryFn: () => getPopular() });
   const { data: topRated } = useQuery({ queryKey: ["topRated"], queryFn: () => getTopRated() });
@@ -16,7 +20,8 @@ const Index = () => {
   const { data: drama } = useQuery({ queryKey: ["genre", 18], queryFn: () => getMoviesByGenre(18) });
   const { data: romance } = useQuery({ queryKey: ["genre", 10749], queryFn: () => getMoviesByGenre(10749) });
 
-  const heroMovie = trending?.results?.[0];
+  const heroCandidates = filterAdult((trending?.results || []) as any, showAdult);
+  const heroMovie = heroCandidates[0];
 
   if (!heroMovie) {
     return (
@@ -40,16 +45,16 @@ const Index = () => {
     <main className="min-h-screen">
       <HeroBanner movie={heroMovie} />
       <div className="-mt-20 relative z-10">
-        <MovieRow title="🔥 Trending in India" movies={trending?.results || []} />
-        <MovieRow title="🇮🇳 Popular Indian Movies" movies={popular?.results || []} />
-        <MovieRow title="📺 Indian Web Series" movies={indianWeb?.results || []} />
-        <MovieRow title="⭐ Top Rated (India)" movies={topRated?.results || []} />
-        <MovieRow title="🆕 Upcoming Indian Releases" movies={upcoming?.results || []} />
-        <MovieRow title="🌏 Popular Web Series" movies={globalWeb?.results || []} />
-        <MovieRow title="💥 Action" movies={action?.results || []} />
-        <MovieRow title="😂 Comedy" movies={comedy?.results || []} />
-        <MovieRow title="🎭 Drama" movies={drama?.results || []} />
-        <MovieRow title="❤️ Romance" movies={romance?.results || []} />
+        <MovieRow title="🔥 Trending in India" movies={f(trending?.results)} />
+        <MovieRow title="🇮🇳 Popular Indian Movies" movies={f(popular?.results)} />
+        <MovieRow title="📺 Indian Web Series" movies={f(indianWeb?.results)} />
+        <MovieRow title="⭐ Top Rated (India)" movies={f(topRated?.results)} />
+        <MovieRow title="🆕 Upcoming Indian Releases" movies={f(upcoming?.results)} />
+        <MovieRow title="🌏 Popular Web Series" movies={f(globalWeb?.results)} />
+        <MovieRow title="💥 Action" movies={f(action?.results)} />
+        <MovieRow title="😂 Comedy" movies={f(comedy?.results)} />
+        <MovieRow title="🎭 Drama" movies={f(drama?.results)} />
+        <MovieRow title="❤️ Romance" movies={f(romance?.results)} />
       </div>
     </main>
   );

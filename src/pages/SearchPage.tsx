@@ -3,16 +3,21 @@ import { useQuery } from "@tanstack/react-query";
 import { searchMovies } from "@/lib/tmdb";
 import MovieCard from "@/components/MovieCard";
 import { Skeleton } from "@/components/ui/skeleton";
+import { filterAdult } from "@/lib/adultFilter";
+import { useShowAdult } from "@/hooks/use-show-adult";
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
+  const showAdult = useShowAdult();
 
   const { data, isLoading } = useQuery({
     queryKey: ["search", query],
     queryFn: () => searchMovies(query),
     enabled: !!query,
   });
+
+  const results = filterAdult((data?.results || []) as any, showAdult);
 
   return (
     <main className="min-h-screen pt-20 container mx-auto px-4">
@@ -30,16 +35,16 @@ const SearchPage = () => {
 
       {data?.results && (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {data.results.map((movie: any) => (
-            <div key={movie.id} className="w-full">
+          {results.map((movie: any) => (
+            <div key={`${movie.media_type}-${movie.id}`} className="w-full">
               <MovieCard movie={movie} />
             </div>
           ))}
         </div>
       )}
 
-      {data?.results?.length === 0 && (
-        <p className="text-muted-foreground text-center py-20">No movies found for "{query}"</p>
+      {data?.results && results.length === 0 && (
+        <p className="text-muted-foreground text-center py-20">No results found for "{query}"</p>
       )}
     </main>
   );

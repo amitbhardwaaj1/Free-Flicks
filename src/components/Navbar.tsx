@@ -3,12 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { Search, Menu, X, Film } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { FEATURED_GENRES } from "@/lib/tmdb";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import { setShowAdult } from "@/lib/adultFilter";
+import { useShowAdult } from "@/hooks/use-show-adult";
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
+  const showAdult = useShowAdult();
   const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -80,6 +84,18 @@ const Navbar = () => {
                     {genre.name}
                   </Link>
                 ))}
+                <div className="mt-6 pt-4 border-t border-border">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-foreground">Adult Content</p>
+                      <p className="text-xs text-muted-foreground">Show 18+ titles</p>
+                    </div>
+                    <Switch
+                      checked={showAdult}
+                      onCheckedChange={(v) => setShowAdult(v)}
+                    />
+                  </div>
+                </div>
               </div>
             </SheetContent>
           </Sheet>

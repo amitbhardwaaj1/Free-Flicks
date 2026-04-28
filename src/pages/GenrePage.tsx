@@ -5,16 +5,21 @@ import MovieCard from "@/components/MovieCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { filterAdult } from "@/lib/adultFilter";
+import { useShowAdult } from "@/hooks/use-show-adult";
 
 const GenrePage = () => {
   const { id, name } = useParams<{ id: string; name: string }>();
   const [page, setPage] = useState(1);
+  const showAdult = useShowAdult();
 
   const { data, isLoading } = useQuery({
     queryKey: ["genre", id, page],
     queryFn: () => getMoviesByGenre(Number(id), page),
     enabled: !!id,
   });
+
+  const results = filterAdult((data?.results || []) as any, showAdult);
 
   const genreName = name ? name.charAt(0).toUpperCase() + name.slice(1) : "Genre";
 
@@ -33,7 +38,7 @@ const GenrePage = () => {
       {data?.results && (
         <>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {data.results.map((movie: any) => (
+            {results.map((movie: any) => (
               <div key={movie.id} className="w-full">
                 <MovieCard movie={movie} />
               </div>
