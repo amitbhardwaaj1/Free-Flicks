@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { searchMovies } from "@/lib/tmdb";
 import MovieCard from "@/components/MovieCard";
 import { Skeleton } from "@/components/ui/skeleton";
+import { filterAdult } from "@/lib/adultFilter";
+import { useShowAdult } from "@/hooks/use-show-adult";
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
