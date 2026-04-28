@@ -5,6 +5,8 @@ import MovieCard from "@/components/MovieCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { filterAdult } from "@/lib/adultFilter";
+import { useShowAdult } from "@/hooks/use-show-adult";
 
 const GenrePage = () => {
   const { id, name } = useParams<{ id: string; name: string }>();
