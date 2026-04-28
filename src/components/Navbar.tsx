@@ -84,6 +84,18 @@ const Navbar = () => {
                     {genre.name}
                   </Link>
                 ))}
+                <div className="mt-6 pt-4 border-t border-border">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-foreground">Adult Content</p>
+                      <p className="text-xs text-muted-foreground">Show 18+ titles</p>
+                    </div>
+                    <Switch
+                      checked={showAdult}
+                      onCheckedChange={(v) => setShowAdult(v)}
+                    />
+                  </div>
+                </div>
               </div>
             </SheetContent>
           </Sheet>
