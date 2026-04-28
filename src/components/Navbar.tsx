@@ -12,6 +12,7 @@ import { useShowAdult } from "@/hooks/use-show-adult";
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
+  const showAdult = useShowAdult();
   const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
