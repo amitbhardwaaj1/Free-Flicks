@@ -1,49 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
-import { getTrending, getPopular, getTopRated, getUpcoming, getMoviesByGenre, FEATURED_GENRES } from "@/lib/tmdb";
+import { getTrending, getPopular, getTopRated, getUpcoming, getMoviesByGenre, getIndianWebSeries, getPopularTV } from "@/lib/tmdb";
 import HeroBanner from "@/components/HeroBanner";
 import MovieRow from "@/components/MovieRow";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const Index = () => {
-  const { data: trending } = useQuery({
-    queryKey: ["trending"],
-    queryFn: () => getTrending(),
-  });
-
-  const { data: popular } = useQuery({
-    queryKey: ["popular"],
-    queryFn: () => getPopular(),
-  });
-
-  const { data: topRated } = useQuery({
-    queryKey: ["topRated"],
-    queryFn: () => getTopRated(),
-  });
-
-  const { data: upcoming } = useQuery({
-    queryKey: ["upcoming"],
-    queryFn: () => getUpcoming(),
-  });
-
-  const { data: action } = useQuery({
-    queryKey: ["genre", 28],
-    queryFn: () => getMoviesByGenre(28),
-  });
-
-  const { data: comedy } = useQuery({
-    queryKey: ["genre", 35],
-    queryFn: () => getMoviesByGenre(35),
-  });
-
-  const { data: horror } = useQuery({
-    queryKey: ["genre", 27],
-    queryFn: () => getMoviesByGenre(27),
-  });
-
-  const { data: scifi } = useQuery({
-    queryKey: ["genre", 878],
-    queryFn: () => getMoviesByGenre(878),
-  });
+  const { data: trending } = useQuery({ queryKey: ["trending"], queryFn: () => getTrending() });
+  const { data: popular } = useQuery({ queryKey: ["popular"], queryFn: () => getPopular() });
+  const { data: topRated } = useQuery({ queryKey: ["topRated"], queryFn: () => getTopRated() });
+  const { data: upcoming } = useQuery({ queryKey: ["upcoming"], queryFn: () => getUpcoming() });
+  const { data: indianWeb } = useQuery({ queryKey: ["indianWeb"], queryFn: () => getIndianWebSeries() });
+  const { data: globalWeb } = useQuery({ queryKey: ["globalWeb"], queryFn: () => getPopularTV() });
+  const { data: action } = useQuery({ queryKey: ["genre", 28], queryFn: () => getMoviesByGenre(28) });
+  const { data: comedy } = useQuery({ queryKey: ["genre", 35], queryFn: () => getMoviesByGenre(35) });
+  const { data: drama } = useQuery({ queryKey: ["genre", 18], queryFn: () => getMoviesByGenre(18) });
+  const { data: romance } = useQuery({ queryKey: ["genre", 10749], queryFn: () => getMoviesByGenre(10749) });
 
   const heroMovie = trending?.results?.[0];
 
@@ -69,14 +40,16 @@ const Index = () => {
     <main className="min-h-screen">
       <HeroBanner movie={heroMovie} />
       <div className="-mt-20 relative z-10">
-        <MovieRow title="🔥 Trending This Week" movies={trending?.results || []} />
-        <MovieRow title="⭐ Top Rated" movies={topRated?.results || []} />
-        <MovieRow title="🎬 Popular Now" movies={popular?.results || []} />
-        <MovieRow title="🆕 Upcoming" movies={upcoming?.results || []} />
+        <MovieRow title="🔥 Trending in India" movies={trending?.results || []} />
+        <MovieRow title="🇮🇳 Popular Indian Movies" movies={popular?.results || []} />
+        <MovieRow title="📺 Indian Web Series" movies={indianWeb?.results || []} />
+        <MovieRow title="⭐ Top Rated (India)" movies={topRated?.results || []} />
+        <MovieRow title="🆕 Upcoming Indian Releases" movies={upcoming?.results || []} />
+        <MovieRow title="🌏 Popular Web Series" movies={globalWeb?.results || []} />
         <MovieRow title="💥 Action" movies={action?.results || []} />
         <MovieRow title="😂 Comedy" movies={comedy?.results || []} />
-        <MovieRow title="👻 Horror" movies={horror?.results || []} />
-        <MovieRow title="🚀 Sci-Fi" movies={scifi?.results || []} />
+        <MovieRow title="🎭 Drama" movies={drama?.results || []} />
+        <MovieRow title="❤️ Romance" movies={romance?.results || []} />
       </div>
     </main>
   );
